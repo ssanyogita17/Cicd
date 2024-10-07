@@ -1,0 +1,38 @@
+stages:
+  - build
+  - test
+  - deploy
+
+# Build stage
+build:
+  stage: build
+  script:
+    - echo "Building the application..."
+    - ./build_script.sh  # Replace with your build command/script
+  artifacts:
+    paths:
+      - build/  # Specify the build artifacts to save
+  
+# Test stage
+test:
+  stage: test
+  script:
+    - echo "Running tests..."
+    - ./run_tests.sh  # Replace with your test script
+  dependencies:
+    - build
+  artifacts:
+    paths:
+      - test-reports/
+
+# Deploy stage
+deploy_production:
+  stage: deploy
+  script:
+    - echo "Deploying to production..."
+    - ./deploy_script.sh  # Replace with your deployment script
+  environment:
+    name: production
+    url: https://your-production-url.com
+  only:
+    - main  # Deploy only on the main branch
